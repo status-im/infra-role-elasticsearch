@@ -11,8 +11,13 @@ https://www.elastic.co/guide/en/elasticsearch/guide/current/replica-shards.html
 
 # Configuration
 
-The main configuration that makes any difference are the JVM options like the ones related to HEAP size in `defaults/main.yml`:
+The only mandatory configuration is the cluster name in [`defaults/main.yml`](defaults/main.yml):
+```yaml
+es_cluster_name: 'my-awesome-cluster'
 ```
+
+The only other configuration that makes any difference are the JVM options like the ones related to heap size in:
+```yaml
 es_jvm_min_heap: 2g
 es_jvm_max_heap: 2g
 ```
