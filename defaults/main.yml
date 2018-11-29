@@ -1,20 +1,17 @@
 ---
-cont_state: started
-cont_recreate: false
-cont_restart: false
+# Mandatory variables
+es_cluster_name: ~
 
 es_image: 'docker.elastic.co/elasticsearch/elasticsearch-oss:6.5.1'
 es_api_port: 9200
 es_node_port: 9300
+es_listen_addr: '0.0.0.0'
 
 es_cont_name: elasticsearch
 es_docker_dir: '/docker/{{ es_cont_name }}'
 
-es_cluster_name: 'status-logs-search'
-es_listen_addr: '0.0.0.0'
-
 es_number_of_replicas: 2
-es_number_of_shards: 7
+es_number_of_shards: 5
 
 es_max_map_count: 262144
 es_jvm_min_heap: 2g
@@ -22,10 +19,15 @@ es_jvm_max_heap: 2g
 
 # This step is really slow due to how Ansible accesses hostvars
 # WARNING: Will fail for one host due to lack of ansible_local for others
-es_master_nodes: '{{ groups["log-store"] | select("match", ".*"+data_center+".*") | map("extract", hostvars) | map(attribute="ansible_local.tinc.vpn_ip") | list }}'
+es_master_nodes: '{{ ansible_play_hosts | select("match", ".*"+data_center+".*") | map("extract", hostvars) | map(attribute="ansible_local.tinc.vpn_ip") | list }}'
 
 # WARNING: These links are legacy and might stop working at some point.
 geoip_url: 'http://geolite.maxmind.com/download/geoip/database'
 geoip_dbs:
   - GeoLite2-City.mmdb.gz
   - GeoLite2-Country.mmdb.gz
+
+# generic container variables
+cont_state: started
+cont_recreate: false
+cont_restart: false
