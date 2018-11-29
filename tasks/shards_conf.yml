@@ -6,15 +6,16 @@
     delay: 5
     state: drained
 
-- name: Bump number of replicas to 2 for logstash indices
+- name: Bump number of replicas to 2 for all new indices
   uri:
-    url: 'http://localhost:{{ es_api_port }}/_template/logstash_template'
+    url: 'http://localhost:{{ es_api_port }}/_template/default_template'
     method: PUT
     status_code: 200
     body_format: json
     body: |
       {
-        "template": "logstash-*", 
+        "template": "default_template", 
+        "index_patterns": "*",
         "settings": {
           "number_of_replicas": {{ es_number_of_replicas | to_json }},
           "number_of_shards": {{ es_number_of_shards | to_json }}
