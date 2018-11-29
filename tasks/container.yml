@@ -1,11 +1,11 @@
 ---
-- name: Symlink /data volume for the container
+- name: 'Create data folder for container: {{ es_cont_name }}'
   file:
-    src: '/data'
-    dest: '{{ es_docker_dir }}/data'
-    state: link
+    path: '{{ es_docker_dir }}/data'
+    state: directory
+    mode: 0775
 
-- name: Start container
+- name: 'Start container: {{ es_cont_name }}'
   docker_container:
     name: '{{ es_cont_name }}'
     image: '{{ es_image }}'
