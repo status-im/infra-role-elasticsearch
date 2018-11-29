@@ -1,5 +1,5 @@
 node.name: "{{ hostname }}"
-cluster.name: "{{ es_cluster_name }}"
+cluster.name: "{{ es_cluster_name | mandatory }}"
 network.host: "{{ es_listen_addr }}"
 network.bind_host: "{{ es_listen_addr }}"
 network.publish_host: "{{ ansible_local.tinc.vpn_ip }}"
