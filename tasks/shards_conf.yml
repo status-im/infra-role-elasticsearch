@@ -1,0 +1,22 @@
+---
+- name: Wait for ElasticSearch HTTP port to go up
+  wait_for:
+    host: 'localhost'
+    port: '{{ es_api_port }}'
+    delay: 5
+    state: drained
+
+- name: Bump number of replicas to 2 for logstash indices
+  uri:
+    url: 'http://localhost:{{ es_api_port }}/_template/logstash_template'
+    method: PUT
+    status_code: 200
+    body_format: json
+    body: |
+      {
+        "template": "logstash-*", 
+        "settings": {
+          "number_of_replicas": {{ es_number_of_replicas | to_json }},
+          "number_of_shards": {{ es_number_of_shards | to_json }}
+        }
+      }

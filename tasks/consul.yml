@@ -1,0 +1,16 @@
+---
+- name: Create Consul service definition
+  include_role: name=consul-service
+  vars:
+    consul_config_name: '{{ es_cont_name }}'
+    consul_services:
+      - name: '{{ es_cont_name }}'
+        tags: ['logging']
+        # we advertise the port with basic auth
+        port: '{{ es_api_port }}'
+        address: '{{ ansible_local.tinc.vpn_ip }}'
+        checks:
+          - id: '{{ es_cont_name }}-health'
+            name: ElasticSearch Healthcheck
+            type: http
+            http: 'http://localhost:{{ es_api_port }}/_cluster/health?pretty'

@@ -1,0 +1,10 @@
+cluster.name: "{{ es_cluster_name }}"
+network.host: "{{ es_listen_addr }}"
+network.bind_host: "{{ es_listen_addr }}"
+network.publish_host: "{{ ansible_local.tinc.vpn_ip }}"
+
+# minimum_master_nodes need to be explicitly set when bound on a public IP
+discovery.zen.ping.unicast.hosts: {{ es_master_nodes | to_json }}
+discovery.zen.minimum_master_nodes: {{ ((es_master_nodes | length / 2) | round(0, "floor") | int)+1 }}
+
+transport.profiles.default.port: {{ es_node_port }}

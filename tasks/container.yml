@@ -1,0 +1,22 @@
+---
+- name: Symlink /data volume for the container
+  file:
+    src: '/data'
+    dest: '{{ es_docker_dir }}/data'
+    state: link
+
+- name: Start container
+  docker_container:
+    name: '{{ es_cont_name }}'
+    image: '{{ es_image }}'
+    pull: true
+    restart_policy: always
+    state: '{{ cont_state }}'
+    recreate: '{{ cont_recreate }}'
+    restart: '{{ es_config.changed | default(cont_restart) }}'
+    ports:
+      - '0.0.0.0:{{ es_api_port }}:{{ es_api_port }}'
+      - '0.0.0.0:{{ es_node_port }}:{{ es_node_port }}'
+    volumes:
+      - '{{ es_docker_dir }}/conf/:/usr/share/elasticsearch/config'
+      - '{{ es_docker_dir }}/data/:/usr/share/elasticsearch/data'
