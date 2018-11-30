@@ -5,7 +5,7 @@ network.bind_host: "{{ es_listen_addr }}"
 network.publish_host: "{{ ansible_local.tinc.vpn_ip }}"
 
 # minimum_master_nodes need to be explicitly set when bound on a public IP
-discovery.zen.ping.unicast.hosts: {{ es_unicast_host | mandatory }}:{{ es_unicast_port }}
-discovery.zen.minimum_master_nodes: {{ es_min_master_nodes | mandatory }}
+discovery.zen.ping.unicast.hosts: {{ es_master_nodes_and_port }}
+discovery.zen.minimum_master_nodes: {{ es_min_master_nodes }}
 
 transport.profiles.default.port: {{ es_node_port | mandatory }}

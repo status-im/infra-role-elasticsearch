@@ -14,9 +14,11 @@ https://www.elastic.co/guide/en/elasticsearch/guide/current/replica-shards.html
 The only mandatory settings in [`defaults/main.yml`](defaults/main.yml) are:
 ```yaml
 es_cluster_name: 'my-awesome-cluster'
-es_unicast_host: 'cluster-master.example.com'
-es_unicast_port: 9300
-es_master_min_nodes: 3
+es_master_port: 9300
+es_master_nodes:
+  - node-01.es.example.tinc
+  - node-02.es.example.tinc
+  - node-03.es.example.tinc
 ```
 
 The only other configuration that makes any difference are the JVM options like the ones related to heap size in:
