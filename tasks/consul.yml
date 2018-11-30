@@ -5,7 +5,7 @@
     consul_config_name: '{{ es_cont_name }}'
     consul_services:
       - name: '{{ es_cont_name }}'
-        tags: ['logging']
+        tags: ['{{ env }}.{{ stage }}', '{{ es_cluster_name }}']
         # we advertise the port with basic auth
         port: '{{ es_api_port }}'
         address: '{{ ansible_local.tinc.vpn_ip }}'
