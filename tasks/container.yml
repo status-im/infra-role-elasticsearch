@@ -11,6 +11,7 @@
     image: '{{ es_image }}'
     pull: true
     restart_policy: always
+    network_mode: 'host'
     state: '{{ cont_state }}'
     recreate: '{{ cont_recreate }}'
     restart: '{{ es_config.changed | default(cont_restart) }}'
