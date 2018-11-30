@@ -4,7 +4,8 @@ es_cluster_name: ~
 # what hos to connect to in cluster
 es_master_port: 9300
 es_master_nodes: ~
-es_master_nodes_and_port: '{{[{% for node in es_master_nodes %}'{{ node }}:{{ es_master_port }}',{% endfor %}]}}'
+es_master_nodes_and_port: |
+  {% for node in es_master_nodes %}'{{ node }}:{{ es_master_port }}',{% endfor %}
 es_min_master_nodes: '{{ ((es_master_nodes | length / 2) | round(0, "floor") | int)+1 }}'
 
 es_image: 'docker.elastic.co/elasticsearch/elasticsearch-oss:6.5.1'
