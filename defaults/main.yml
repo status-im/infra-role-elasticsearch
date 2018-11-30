@@ -1,6 +1,10 @@
 ---
 # Mandatory variables
 es_cluster_name: ~
+# what hos to connect to in cluster
+es_unicast_host: ~
+es_unicast_port: 9300
+es_min_master_nodes: ~
 
 es_image: 'docker.elastic.co/elasticsearch/elasticsearch-oss:6.5.1'
 es_api_port: 9200
@@ -16,9 +20,6 @@ es_number_of_shards: 5
 es_max_map_count: 262144
 es_jvm_min_heap: 2g
 es_jvm_max_heap: 2g
-
-es_unicast_host: ~
-es_unicast_port: 9300
 
 # WARNING: These links are legacy and might stop working at some point.
 geoip_url: 'http://geolite.maxmind.com/download/geoip/database'

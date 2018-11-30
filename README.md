@@ -16,6 +16,7 @@ The only mandatory settings in [`defaults/main.yml`](defaults/main.yml) are:
 es_cluster_name: 'my-awesome-cluster'
 es_unicast_host: 'cluster-master.example.com'
 es_unicast_port: 9300
+es_master_min_nodes: 3
 ```
 
 The only other configuration that makes any difference are the JVM options like the ones related to heap size in:
