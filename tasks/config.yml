@@ -8,9 +8,14 @@
 
 - name: Create directory for config files
   file:
-    path: '{{ es_docker_dir }}/conf/ingest-geoip'
+    path: '{{ item }}'
     state: directory
-    mode: 0775
+    owner: dockremap
+    group: docker
+    recurse: true
+  with_items:
+    - '{{ es_docker_dir }}/conf'
+    - '{{ es_docker_dir }}/conf/ingest-geoip'
 
 - name: Create config files
   template:
