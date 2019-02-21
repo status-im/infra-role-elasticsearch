@@ -3,6 +3,8 @@
   file:
     path: '{{ es_docker_dir }}/data'
     state: directory
+    owner: dockremap
+    group: docker
     mode: 0775
 
 - name: 'Start container: {{ es_cont_name }}'
