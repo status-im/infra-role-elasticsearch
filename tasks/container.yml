@@ -3,8 +3,9 @@
   file:
     path: '{{ es_docker_dir }}/data'
     state: directory
-    owner: dockremap
+    owner: '{{ es_host_uid }}'
     group: docker
+    mode: 0775
     recurse: true
 
 - name: 'Start container: {{ es_cont_name }}'

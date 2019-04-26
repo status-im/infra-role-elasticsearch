@@ -10,8 +10,9 @@
   file:
     path: '{{ item }}'
     state: directory
-    owner: dockremap
+    owner: '{{ es_host_uid }}'
     group: docker
+    mode: 0775
     recurse: true
   with_items:
     - '{{ es_docker_dir }}/conf'
