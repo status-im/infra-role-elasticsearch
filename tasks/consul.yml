@@ -17,3 +17,5 @@
             name: ElasticSearch Healthcheck
             type: http
             http: 'http://localhost:{{ es_api_port }}/_cluster/health?pretty'
+            interval: '60s'
+            timeout: '5s'
