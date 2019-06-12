@@ -16,7 +16,7 @@ es_cont_name: elasticsearch
 es_docker_dir: '/docker/{{ es_cont_name }}'
 
 es_number_of_replicas: 2
-es_number_of_shards: '{{ (es_master_nodes | length) * 2 }}'
+es_number_of_shards: '{{ ((es_master_nodes | length) }}'
 
 es_cont_uid: 1000
 es_host_uid: '{{ 100000 + es_cont_uid - 1 | int }}'
