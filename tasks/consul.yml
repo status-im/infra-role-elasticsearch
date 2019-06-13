@@ -19,3 +19,24 @@
             http: 'http://localhost:{{ es_api_port }}/_cluster/health?pretty'
             interval: '60s'
             timeout: '5s'
+
+- name: Create Consul service definition
+  include_role: name=consul-service
+  vars:
+    consul_config_name: '{{ es_metrics_cont_name }}'
+    consul_services:
+      - name: '{{ es_metrics_cont_name }}'
+        tags: ['{{ env }}.{{ stage }}', '{{ es_cluster_name }}', 'metrics']
+        # we advertise the port with basic auth
+        port: '{{ es_metrics_cont_port }}'
+        address: '{{ ansible_local.tinc.vpn_ip }}'
+        meta:
+            fleet: '{{ env }}.{{ stage }}'
+            cluster_name: '{{ es_cluster_name }}'
+        checks:
+          - id: '{{ es_metrics_cont_name }}-health'
+            name: ES Metrics Exporter Healthcheck
+            type: http
+            http: 'http://localhost:{{ es_metrics_cont_port }}/'
+            interval: '60s'
+            timeout: '5s'

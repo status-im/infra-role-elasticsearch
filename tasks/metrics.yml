@@ -1,0 +1,19 @@
+---
+- name: 'Start container: {{ es_cont_name }}'
+  docker_container:
+    name: '{{ es_metrics_cont_name }}'
+    image: '{{ es_metrics_cont_image }}'
+    pull: true
+    restart_policy: always
+    state: '{{ cont_state }}'
+    recreate: '{{ cont_recreate }}'
+    restart: '{{ cont_restart }}'
+    links:
+      - '{{ es_cont_name }}:es'
+    command: |
+      -es.indices=true
+      -es.timeout={{ es_metrics_timeout }}
+      -es.uri='http://es:{{ es_api_port }}'
+      -web.listen-address=':{{ es_metrics_cont_port }}'
+    ports:
+      - '0.0.0.0:{{ es_metrics_cont_port }}:{{ es_metrics_cont_port }}'
