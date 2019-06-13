@@ -4,7 +4,7 @@ es_cluster_name: ~
 # what hos to connect to in cluster
 es_master_port: 9300
 es_master_nodes: ~
-es_master_nodes_and_ports: '{{ es_master_nodes | map("regex_replace", "(.*)", "\1:"+es_master_port|string) | list }}'
+es_master_nodes_and_ports: '{{ es_master_nodes | map("regex_replace", "^(.*)$", "\1:"+es_master_port|string) | list }}'
 es_min_master_nodes: '{{ ((es_master_nodes | length / 2) | round(0, "floor") | int)+1 }}'
 
 es_image: 'docker.elastic.co/elasticsearch/elasticsearch-oss:6.5.1'
@@ -22,8 +22,8 @@ es_cont_uid: 1000
 es_host_uid: '{{ 100000 + es_cont_uid - 1 | int }}'
 
 es_max_map_count: 262144
-es_jvm_min_heap: 2g
-es_jvm_max_heap: 2g
+es_jvm_min_heap: 1g
+es_jvm_max_heap: 1g
 
 # Metrics for ElasticSearch
 es_metrics_cont_tag: '1.0.2'
