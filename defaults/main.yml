@@ -26,7 +26,7 @@ es_jvm_min_heap: 1g
 es_jvm_max_heap: 1g
 
 # Metrics for ElasticSearch
-es_metrics_cont_tag: '1.0.2'
+es_metrics_cont_tag: '1.1.0'
 es_metrics_cont_image: 'justwatch/elasticsearch_exporter:{{ es_metrics_cont_tag }}'
 es_metrics_cont_name: '{{ es_cont_name }}-exp'
 es_metrics_cont_port: 9114

@@ -37,6 +37,6 @@
           - id: '{{ es_metrics_cont_name }}-health'
             name: ES Metrics Exporter Healthcheck
             type: http
-            http: 'http://localhost:{{ es_metrics_cont_port }}/'
+            http: 'http://localhost:{{ es_metrics_cont_port }}/healthz'
             interval: '60s'
             timeout: '5s'
