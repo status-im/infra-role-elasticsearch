@@ -19,7 +19,7 @@ es_number_of_replicas: 2
 es_number_of_shards: '{{ (es_master_nodes | length) }}'
 
 es_cont_uid: 1000
-es_host_uid: '{{ 100000 + es_cont_uid - 1 | int }}'
+es_host_uid: '{{ 100000 + es_cont_uid | int }}'
 
 es_max_map_count: 262144
 es_jvm_min_heap: 1g
