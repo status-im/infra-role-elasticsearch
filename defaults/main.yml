@@ -1,11 +1,11 @@
 ---
 # Mandatory variables
 es_cluster_name: ~
-# what hos to connect to in cluster
-es_master_port: 9300
+# what hoss to connect to in cluster
 es_master_nodes: ~
-es_master_nodes_and_ports: '{{ es_master_nodes | map("regex_replace", "^(.*)$", "\1:"+es_master_port|string) | list }}'
-es_min_master_nodes: '{{ ((es_master_nodes | length / 2) | round(0, "floor") | int)+1 }}'
+es_master_nodes_and_ports: |
+  {{ es_master_nodes | json_query("[].join('', [addr,':',to_string(port)])") }}
+es_master_nodes_names: '{{ es_master_nodes | map(attribute="name") | list }}'
 
 es_image: 'docker.elastic.co/elasticsearch/elasticsearch-oss:7.4.0'
 es_api_port: 9200
