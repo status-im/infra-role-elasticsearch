@@ -1,11 +1,14 @@
 node.name: "{{ hostname }}"
-cluster.name: "{{ es_cluster_name | mandatory }}"
 network.host: "{{ es_listen_addr }}"
 network.bind_host: "{{ es_listen_addr }}"
 network.publish_host: "{{ ansible_local.tinc.vpn_ip }}"
-
-# minimum_master_nodes need to be explicitly set when bound on a public IP
-discovery.seed_hosts: {{ es_master_nodes_and_ports | to_yaml }}
-cluster.initial_master_nodes: {{ es_master_nodes_names | to_yaml }}
-
 transport.profiles.default.port: {{ es_node_port | mandatory }}
+
+# Cluster configuration
+cluster.name: "{{ es_cluster_name | mandatory }}"
+cluster.initial_master_nodes: {{ [(es_master_nodes_names | first)] | to_yaml }}
+discovery.seed_hosts: {{ es_master_nodes_and_ports | to_yaml }}
+{% if es_master_nodes_names[0] == hostname %}
+# should be commented out after bootstrapping
+node.master: true
+{% endif %}
