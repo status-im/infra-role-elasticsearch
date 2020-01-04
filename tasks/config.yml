@@ -8,15 +8,12 @@
 
 - name: Create directory for config files
   file:
-    path: '{{ item }}'
+    path: '{{ es_docker_dir }}/conf'
     state: directory
     owner: '{{ es_host_uid }}'
     group: docker
     mode: 0775
     recurse: true
-  with_items:
-    - '{{ es_docker_dir }}/conf'
-    - '{{ es_docker_dir }}/conf/ingest-geoip'
 
 - name: Create config files
   template:
@@ -25,9 +22,3 @@
   register: es_config
   with_fileglob:
     - templates/*
-
-- name: Download GeoIP databases
-  get_url:
-    url: '{{ geoip_url }}/{{ item }}'
-    dest: '{{ es_docker_dir }}/conf/ingest-geoip'
-  with_items: '{{ geoip_dbs }}'

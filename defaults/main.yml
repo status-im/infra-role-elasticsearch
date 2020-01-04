@@ -32,12 +32,6 @@ es_metrics_cont_name: '{{ es_cont_name }}-exp'
 es_metrics_cont_port: 9114
 es_metrics_timeout: '10s'
 
-# WARNING: These links are legacy and might stop working at some point.
-geoip_url: 'http://geolite.maxmind.com/download/geoip/database'
-geoip_dbs:
-  - GeoLite2-City.mmdb.gz
-  - GeoLite2-Country.mmdb.gz
-
 # generic container variables
 cont_state: started
 cont_recreate: false
