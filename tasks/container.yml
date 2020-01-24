@@ -1,5 +1,6 @@
 ---
 - name: 'Create data folder for container: {{ es_cont_name }}'
+  tags: ['container']
   file:
     path: '{{ es_docker_dir }}/data'
     state: directory
@@ -9,6 +10,7 @@
     recurse: true
 
 - name: 'Start container: {{ es_cont_name }}'
+  tags: ['container']
   docker_container:
     name: '{{ es_cont_name }}'
     image: '{{ es_image }}'
