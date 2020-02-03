@@ -13,8 +13,7 @@
     body_format: json
     body: |
       {
-        "template": "default_template", 
-        "index_patterns": "*",
+        "index_patterns": ["*"],
         "settings": {
           "number_of_replicas": {{ es_number_of_replicas | to_json }},
           "number_of_shards": {{ es_number_of_shards | to_json }}
