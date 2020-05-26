@@ -14,6 +14,7 @@
     body: |
       {
         "index_patterns": ["*"],
+        "mappings": {{ es_default_template_mappings | to_json }},
         "settings": {
           "number_of_replicas": {{ es_number_of_replicas | to_json }},
           "number_of_shards": {{ es_number_of_shards | to_json }}
