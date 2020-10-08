@@ -19,6 +19,8 @@
   template:
     src: '{{ item }}'
     dest: '{{ es_docker_dir }}/conf/{{ item | basename | replace(".j2", "") }}'
+    owner: '{{ es_host_uid }}'
+    mode: 0644
   register: es_config
   with_fileglob:
     - templates/*
