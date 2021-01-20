@@ -2,7 +2,7 @@
 - name: Adjust vm.max_map_count
   sysctl:
     name: vm.max_map_count
-    value: '{{ es_max_map_count }}'
+    value: '{{ es_max_map_count | string }}'
     state: present
     reload: true
 
