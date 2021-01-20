@@ -5,7 +5,7 @@
     delay: 5
     timeout: 10
 
-- name: Bump number of replicas to 2 for all new indices
+- name: 'Set number of replicas to {{ es_number_of_replicas }} for all new indices'
   uri:
     url: 'http://localhost:{{ es_api_port }}/_template/default_template'
     method: PUT
