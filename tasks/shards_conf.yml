@@ -2,8 +2,9 @@
 - name: Wait for ElasticSearch HTTP port to go up
   wait_for:
     port: '{{ es_api_port }}'
-    delay: 5
-    timeout: 10
+    delay: 10
+    connect_timeout: 20
+    timeout: 20
 
 - name: 'Set number of replicas to {{ es_number_of_replicas }} for all new indices'
   uri:
