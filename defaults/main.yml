@@ -1,6 +1,8 @@
 ---
 # Mandatory variables
 es_cluster_name: ~
+# Set to true when bootstrapping, then disable
+es_cluster_bootstrap: false
 # what hoss to connect to in cluster
 es_master_nodes: ~
 es_master_nodes_and_ports: |
