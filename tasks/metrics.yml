@@ -11,7 +11,6 @@
     links:
       - '{{ es_cont_name }}:es'
     command: |
-      --es.indices
       --es.timeout={{ es_metrics_timeout }}
       --es.uri='http://es:{{ es_api_port }}'
       --web.listen-address=':{{ es_metrics_cont_port }}'
