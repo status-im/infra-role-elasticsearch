@@ -8,7 +8,7 @@
         tags: ['{{ env }}.{{ stage }}', '{{ es_cluster_name }}']
         # we advertise the port with basic auth
         port: '{{ es_api_port }}'
-        address: '{{ ansible_local.tinc.vpn_ip }}'
+        address: '{{ ansible_local.wireguard.vpn_ip }}'
         meta:
             fleet: '{{ env }}.{{ stage }}'
             cluster_port: '{{ es_node_port | string }}'
@@ -30,7 +30,7 @@
         tags: ['{{ env }}.{{ stage }}', '{{ es_cluster_name }}', 'metrics']
         # we advertise the port with basic auth
         port: '{{ es_metrics_cont_port }}'
-        address: '{{ ansible_local.tinc.vpn_ip }}'
+        address: '{{ ansible_local.wireguard.vpn_ip }}'
         meta:
             fleet: '{{ env }}.{{ stage }}'
             cluster_name: '{{ es_cluster_name }}'

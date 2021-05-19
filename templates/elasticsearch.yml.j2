@@ -1,7 +1,7 @@
 node.name: "{{ hostname }}"
 network.host: "{{ es_listen_addr }}"
 network.bind_host: "{{ es_listen_addr }}"
-network.publish_host: "{{ ansible_local.tinc.vpn_ip }}"
+network.publish_host: "{{ ansible_local.wireguard.vpn_ip }}"
 transport.profiles.default.port: {{ es_node_port | mandatory }}
 
 # Cluster configuration

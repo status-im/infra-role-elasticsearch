@@ -15,9 +15,9 @@ The only mandatory settings in [`defaults/main.yml`](defaults/main.yml) are:
 ```yaml
 es_cluster_name: 'my-awesome-cluster'
 es_master_nodes:
-  - { name: node-01.es.example.tinc, addr: 1.2.3.4, port: 9300 }
-  - { name: node-02.es.example.tinc, addr: 2.3.4.5, port: 9300 }
-  - { name: node-03.es.example.tinc, addr: 3.4.5.6, port: 9300 }
+  - { name: node-01.es.example.vpn, addr: 1.2.3.4, port: 9300 }
+  - { name: node-02.es.example.vpn, addr: 2.3.4.5, port: 9300 }
+  - { name: node-03.es.example.vpn, addr: 3.4.5.6, port: 9300 }
 ```
 
 The only other configuration that makes any difference are the JVM options like the ones related to heap size in:
@@ -30,6 +30,6 @@ As the hosts are scaled up to deal with more and more logs we should adjust thos
 
 # Known Issues
 
-Because we need to know the Tinc VPN IPs of all the nodes in the ES cluster we need to run the `setup` modules(`gather_facts: true`) on them in order to get that. So if this role is not ran for the whole cluster it will fail due to lack of value `ansible_local.tinc.vpn_ip` variable.
+Because we need to know the VPN IPs of all the nodes in the ES cluster we need to run the `setup` modules(`gather_facts: true`) on them in order to get that. So if this role is not ran for the whole cluster it will fail due to lack of value `ansible_local.wireguard.vpn_ip` variable.
 
 We could use Consul for this but it would not work the first time setting up a new cluster.
