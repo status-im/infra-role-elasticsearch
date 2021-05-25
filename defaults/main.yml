@@ -5,9 +5,9 @@ es_cluster_name: ~
 es_cluster_bootstrap: false
 # what hoss to connect to in cluster
 es_master_nodes: ~
-es_master_nodes_and_ports: |
+es_master_nodes_and_ports: |-
   {{ es_master_nodes | json_query("[].join('', [addr,':',to_string(port)])") }}
-es_master_nodes_names: |
+es_master_nodes_names: |-
   {{ es_master_nodes | json_query("[].name") }}
 
 es_image: 'docker.elastic.co/elasticsearch/elasticsearch-oss:7.10.2'

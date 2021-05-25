@@ -6,9 +6,13 @@ transport.profiles.default.port: {{ es_node_port | mandatory }}
 
 # Cluster configuration
 cluster.name: "{{ es_cluster_name | mandatory }}"
-cluster.initial_master_nodes: {{ [(es_master_nodes_names | first)] | to_yaml }}
+{% if (es_master_nodes_and_ports|length) == 0 %}
+discovery.type: single-node
+{% else %}
 discovery.seed_hosts: {{ es_master_nodes_and_ports | to_yaml }}
+cluster.initial_master_nodes: {{ [(es_master_nodes_names | first)] | to_yaml }}
 {% if es_cluster_bootstrap and es_master_nodes_names[0] == hostname %}
 # should be commented out after bootstrapping
 node.roles: [ master ]
+{% endif %}
 {% endif %}

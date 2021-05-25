@@ -6,7 +6,7 @@
     state: directory
     owner: '{{ es_host_uid }}'
     group: docker
-    mode: 0775
+    mode: 0755
     recurse: true
 
 - name: 'Start container: {{ es_cont_name }}'
