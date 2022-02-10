@@ -8,19 +8,19 @@
 
 - name: Create directory for config files
   file:
-    path: '{{ es_docker_dir }}/conf'
+    path: '{{ es_node_cont_vol }}/conf'
     state: directory
-    owner: '{{ es_host_uid }}'
+    owner: '{{ es_node_host_uid }}'
     group: docker
     mode: 0775
 
 - name: Create config files
   template:
     src: '{{ item }}'
-    dest: '{{ es_docker_dir }}/conf/{{ item | basename | replace(".j2", "") }}'
-    owner: '{{ es_host_uid }}'
+    dest: '{{ es_node_cont_vol }}/conf/{{ item | basename | replace(".j2", "") }}'
+    owner: '{{ es_node_host_uid }}'
     group: 'docker'
     mode: 0644
   register: es_config
   with_fileglob:
-    - templates/*
+    - templates/config/*

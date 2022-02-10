@@ -1,0 +1,27 @@
+---
+- name: 'Create data folder for container: {{ es_node_cont_name }}'
+  tags: ['container']
+  file:
+    path: '{{ es_node_cont_vol }}/data'
+    state: directory
+    owner: '{{ es_node_host_uid }}'
+    group: docker
+    mode: 0755
+    recurse: true
+
+- name: 'Create compose file: {{ es_service_name }}'
+  template:
+    src: 'docker-compose.yml.j2'
+    dest: '{{ es_compose_path }}'
+    owner: dockremap
+    group: docker
+    mode: 0644
+
+- name: 'Create containers: {{ es_service_name }}'
+  docker_compose:
+    project_src: '{{ es_service_path }}'
+    state: '{{ compose_state }}'
+    restarted: '{{ compose_restart }}'
+    recreate: '{{ es_config.changed | ternary("always", compose_recreate) }}'
+    pull: true
+    build: false

@@ -2,9 +2,9 @@
 - name: Create Consul service definition
   include_role: name=consul-service
   vars:
-    consul_config_name: '{{ es_cont_name }}'
+    consul_config_name: '{{ es_service_name }}'
     consul_services:
-      - name: '{{ es_cont_name }}'
+      - name: '{{ es_service_name }}'
         tags: ['{{ env }}.{{ stage }}', '{{ es_cluster_name }}']
         # we advertise the port with basic auth
         port: '{{ es_api_port }}'
@@ -14,7 +14,7 @@
             cluster_port: '{{ es_node_port | string }}'
             cluster_name: '{{ es_cluster_name }}'
         checks:
-          - id: '{{ es_cont_name }}-health'
+          - id: '{{ es_service_name }}-health'
             name: ElasticSearch Healthcheck
             type: http
             http: 'http://localhost:{{ es_api_port }}/_cluster/health?pretty'
@@ -24,20 +24,20 @@
 - name: Create Consul service definition
   include_role: name=consul-service
   vars:
-    consul_config_name: '{{ es_metrics_cont_name }}'
+    consul_config_name: '{{ es_exp_cont_name }}'
     consul_services:
-      - name: '{{ es_metrics_cont_name }}'
+      - name: '{{ es_exp_cont_name }}'
         tags: ['{{ env }}.{{ stage }}', '{{ es_cluster_name }}', 'metrics']
         # we advertise the port with basic auth
-        port: '{{ es_metrics_cont_port }}'
+        port: '{{ es_exp_cont_port }}'
         address: '{{ ansible_local.wireguard.vpn_ip }}'
         meta:
             fleet: '{{ env }}.{{ stage }}'
             cluster_name: '{{ es_cluster_name }}'
         checks:
-          - id: '{{ es_metrics_cont_name }}-health'
-            name: ES Metrics Exporter Healthcheck
+          - id: '{{ es_exp_cont_name }}-health'
+            name: ES metrics exporter healthcheck
             type: http
-            http: 'http://localhost:{{ es_metrics_cont_port }}/healthz'
+            http: 'http://localhost:{{ es_exp_cont_port }}/healthz'
             interval: '60s'
             timeout: '5s'

@@ -1,0 +1,28 @@
+---
+version: '3.7'
+services:
+  node:
+    container_name: '{{ es_node_cont_name }}'
+    image: '{{ es_node_cont_image }}'
+    restart: always
+    ports:
+      - '0.0.0.0:{{ es_api_port }}:{{ es_api_port }}'
+      - '0.0.0.0:{{ es_node_port }}:{{ es_node_port }}'
+    volumes:
+      - '{{ es_node_cont_vol }}/conf:/usr/share/elasticsearch/config'
+      - '{{ es_node_cont_vol }}/data:/usr/share/elasticsearch/data'
+{% if es_exp_cont_enabled %}
+
+  exp:
+    container_name: '{{ es_exp_cont_name }}'
+    image: '{{ es_exp_cont_image }}'
+    restart: always
+    ports:
+      - '0.0.0.0:{{ es_exp_cont_port }}:{{ es_exp_cont_port }}'
+    command: >
+      --es.timeout={{ es_exp_timeout }}
+      --es.uri=http://node:{{ es_api_port }}
+      --web.listen-address=:{{ es_exp_cont_port }}
+    depends_on:
+      - node
+{% endif %}

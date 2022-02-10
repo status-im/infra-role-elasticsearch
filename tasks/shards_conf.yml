@@ -2,9 +2,9 @@
 - name: Wait for ElasticSearch HTTP port to go up
   wait_for:
     port: '{{ es_api_port }}'
-    delay: 15
-    connect_timeout: 30
-    timeout: 30
+    delay: 10
+    connect_timeout: 40
+    timeout: 40
 
 - name: 'Set number of replicas to {{ es_number_of_replicas }} for all new indices'
   uri:
@@ -21,3 +21,16 @@
           "number_of_shards": {{ es_number_of_shards | to_json }}
         }
       }
+
+#- name: 'Increase limits of sent data'
+#  uri:
+#    url: 'http://localhost:{{ es_api_port }}/_cluster/settings'
+#    method: PUT
+#    status_code: 200
+#    body_format: json
+#    body: |
+#      {
+#        "persistent":{
+#          "indices.breaker.total.use_real_memory":false
+#        }
+#      }
