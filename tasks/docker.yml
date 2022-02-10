@@ -1,15 +1,26 @@
 ---
-- name: 'Create data folder for container: {{ es_node_cont_name }}'
-  tags: ['container']
+- name: 'Create container folders'
   file:
-    path: '{{ es_node_cont_vol }}/data'
-    state: directory
-    owner: '{{ es_node_host_uid }}'
+    path: '{{ item.path }}'
+    owner: '{{ item.owner }}'
     group: docker
-    mode: 0755
+    mode: 0750
+    state: directory
     recurse: true
+  with_items:
+    - { path: '{{ es_node_cont_vol }}/data', owner: '{{ es_node_host_uid }}' }
+    - { path: '{{ es_hq_cont_vol }}/conf',   owner: 'dockremap' }
 
-- name: 'Create compose file: {{ es_service_name }}'
+- name: Copy over logging config
+  copy:
+    src: 'hq/logger.json'
+    dest: '{{ es_hq_cont_vol }}/conf/logger.json'
+    owner: dockremap
+    group: docker
+    mode: 0644
+
+
+- name: 'Create compose file'
   template:
     src: 'docker-compose.yml.j2'
     dest: '{{ es_compose_path }}'
@@ -17,7 +28,7 @@
     group: docker
     mode: 0644
 
-- name: 'Create containers: {{ es_service_name }}'
+- name: 'Create containers'
   docker_compose:
     project_src: '{{ es_service_path }}'
     state: '{{ compose_state }}'
