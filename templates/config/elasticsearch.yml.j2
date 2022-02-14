@@ -3,6 +3,8 @@ network.host: "{{ es_listen_addr }}"
 network.bind_host: "{{ es_listen_addr }}"
 network.publish_host: "{{ ansible_local.wireguard.vpn_ip }}"
 transport.profiles.default.port: {{ es_node_port | mandatory }}
+xpack.security.enabled: false
+path.repo: "/var/backup"
 
 # Cluster configuration
 cluster.name: "{{ es_cluster_name | mandatory }}"

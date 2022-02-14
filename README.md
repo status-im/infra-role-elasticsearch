@@ -28,6 +28,10 @@ es_jvm_max_heap: 2g
 
 As the hosts are scaled up to deal with more and more logs we should adjust those in turn.
 
+# Backups
+
+For information on how to create backups see the [`BACKUPS.md`](./BACKUPS.md) document.
+
 # Known Issues
 
 Because we need to know the VPN IPs of all the nodes in the ES cluster we need to run the `setup` modules(`gather_facts: true`) on them in order to get that. So if this role is not ran for the whole cluster it will fail due to lack of value `ansible_local.wireguard.vpn_ip` variable.

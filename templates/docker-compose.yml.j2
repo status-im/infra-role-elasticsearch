@@ -15,6 +15,7 @@ services:
     volumes:
       - '{{ es_node_cont_vol }}/conf:/usr/share/elasticsearch/config'
       - '{{ es_node_cont_vol }}/data:/usr/share/elasticsearch/data'
+      - '{{ es_node_cont_vol }}/backup:/var/backup'
 {% if es_exp_cont_enabled %}
 
   exp:

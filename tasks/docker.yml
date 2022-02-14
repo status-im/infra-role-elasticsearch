@@ -8,8 +8,9 @@
     state: directory
     recurse: true
   with_items:
-    - { path: '{{ es_node_cont_vol }}/data', owner: '{{ es_node_host_uid }}' }
-    - { path: '{{ es_hq_cont_vol }}/conf',   owner: 'dockremap' }
+    - { path: '{{ es_node_cont_vol }}/backup', owner: '{{ es_node_host_uid }}' }
+    - { path: '{{ es_node_cont_vol }}/data',   owner: '{{ es_node_host_uid }}' }
+    - { path: '{{ es_hq_cont_vol }}/conf',     owner: 'dockremap' }
 
 - name: Copy over logging config
   copy:
