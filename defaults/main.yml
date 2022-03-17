@@ -37,7 +37,6 @@ es_hq_cont_name: '{{ es_service_name }}-hq'
 es_hq_cont_vol: '{{ es_service_path }}/hq'
 es_hq_cont_tag: 'release-v3.5.12'
 es_hq_cont_image: 'elastichq/elasticsearch-hq:{{ es_hq_cont_tag }}'
-es_hq_cont_name: 'elasticsearch-hq'
 es_hq_cont_port: 5000
 es_hq_cont_addr: '0.0.0.0'
 es_hq_cont_debug: false
