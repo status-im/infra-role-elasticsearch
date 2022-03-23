@@ -38,7 +38,7 @@ services:
     image: '{{ es_hq_cont_image }}'
     restart: always
     environment:
-      HQ_DEFAULT_URL: 'http://es:{{ es_api_port }}'
+      HQ_DEFAULT_URL: 'http://node:{{ es_api_port }}'
     ports:
       - '0.0.0.0:{{ es_hq_cont_port }}:{{ es_hq_cont_port }}'
     volumes:
