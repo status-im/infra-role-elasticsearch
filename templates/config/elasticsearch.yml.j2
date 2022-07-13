@@ -1,3 +1,4 @@
+# Node config
 node.name: "{{ hostname }}"
 network.host: "{{ es_listen_addr }}"
 network.bind_host: "{{ es_listen_addr }}"
@@ -6,15 +7,22 @@ transport.profiles.default.port: {{ es_node_port | mandatory }}
 xpack.security.enabled: false
 path.repo: "/var/backup"
 
-# Cluster configuration
+# Cluster config
 cluster.name: "{{ es_cluster_name | mandatory }}"
-{% if (es_master_nodes_and_ports|length) == 0 %}
+{% if (es_master_nodes|length) == 0 %}
 discovery.type: single-node
 {% else %}
-discovery.seed_hosts: {{ es_master_nodes_and_ports | to_yaml }}
-cluster.initial_master_nodes: {{ [(es_master_nodes_names | first)] | to_yaml }}
-{% if es_cluster_bootstrap and es_master_nodes_names[0] == hostname %}
-# should be commented out after bootstrapping
+discovery.seed_hosts:
+{% for node in es_master_nodes %}
+  - {{ node.addr | mandatory }}:{{ node.port | mandatory }} # {{ node.name | mandatory }}
+{% endfor %}
+{% if es_cluster_bootstrap %}
+
+# Bootstrapping config
+# WARNING: Should not be used after bootstrapping.
+cluster.initial_master_nodes: {{ es_master_nodes | json_query("[].name") | to_yaml }}
+{% if ens_master_nodes[0].name == hostname %}
 node.roles: [ master ]
+{% endif %}
 {% endif %}
 {% endif %}

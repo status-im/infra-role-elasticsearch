@@ -5,15 +5,11 @@ es_compose_path: '{{ es_service_path }}/docker-compose.yml'
 
 # Mandatory variables
 es_cluster_name: ~
-# Set to true when bootstrapping, then disable
+# Set to true when bootstrapping, then disable.
 es_cluster_bootstrap: false
 
 # what host to connect to in cluster
 es_master_nodes: ~
-es_master_nodes_and_ports: |-
-  {{ es_master_nodes | json_query("[].join('', [addr,':',to_string(port)])") }}
-es_master_nodes_names: |-
-  {{ es_master_nodes | json_query("[].name") }}
 
 # Containers -----------------------------------------------
 es_docker_network_name: '{{ es_service_name }}'
