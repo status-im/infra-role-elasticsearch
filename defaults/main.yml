@@ -9,7 +9,7 @@ es_cluster_name: ~
 es_cluster_bootstrap: false
 
 # what host to connect to in cluster
-es_master_nodes: ~
+es_master_nodes: []
 
 # Containers -----------------------------------------------
 es_docker_network_name: '{{ es_service_name }}'
