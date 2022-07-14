@@ -31,26 +31,3 @@ services:
     depends_on:
       - node
 {% endif %}
-{% if es_hq_cont_enabled %}
-
-  hq:
-    container_name: '{{ es_hq_cont_name }}'
-    image: '{{ es_hq_cont_image }}'
-    restart: always
-    environment:
-      HQ_DEFAULT_URL: 'http://node:{{ es_api_port }}'
-    ports:
-      - '0.0.0.0:{{ es_hq_cont_port }}:{{ es_hq_cont_port }}'
-    volumes:
-      - '{{ es_hq_cont_vol }}/conf/logger.json:/src/elastichq/config/logger.json'
-    entrypoint: python
-    command: |
-      /src/application.py
-      --port={{ es_hq_cont_port }}
-      --host=0.0.0.0
-{% if es_hq_cont_debug %}
-      --debug
-{% endif %}
-    depends_on:
-      - node
-{% endif %}

@@ -10,16 +10,6 @@
   with_items:
     - { path: '{{ es_node_cont_vol }}/backup', owner: '{{ es_node_host_uid }}' }
     - { path: '{{ es_node_cont_vol }}/data',   owner: '{{ es_node_host_uid }}' }
-    - { path: '{{ es_hq_cont_vol }}/conf',     owner: 'dockremap' }
-
-- name: Copy over logging config
-  copy:
-    src: 'hq/logger.json'
-    dest: '{{ es_hq_cont_vol }}/conf/logger.json'
-    owner: dockremap
-    group: docker
-    mode: 0644
-
 
 - name: 'Create compose file'
   template:

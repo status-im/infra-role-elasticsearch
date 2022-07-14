@@ -27,15 +27,6 @@ es_exp_cont_tag: 'v1.3.0'
 es_exp_cont_image: 'quay.io/prometheuscommunity/elasticsearch-exporter:{{ es_exp_cont_tag }}'
 es_exp_cont_port: 9114
 es_exp_timeout: '10s'
-# HQ
-es_hq_cont_enabled: true
-es_hq_cont_name: '{{ es_service_name }}-hq'
-es_hq_cont_vol: '{{ es_service_path }}/hq'
-es_hq_cont_tag: 'release-v3.5.12'
-es_hq_cont_image: 'elastichq/elasticsearch-hq:{{ es_hq_cont_tag }}'
-es_hq_cont_port: 5000
-es_hq_cont_addr: '0.0.0.0'
-es_hq_cont_debug: false
 # ----------------------------------------------------------
 
 # Listen ports and addresses
