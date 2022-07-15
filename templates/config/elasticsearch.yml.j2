@@ -21,7 +21,7 @@ discovery.seed_hosts:
 # Bootstrapping config
 # WARNING: Should not be used after bootstrapping.
 cluster.initial_master_nodes: {{ es_master_nodes | json_query("[].name") | to_yaml }}
-{% if ens_master_nodes[0].name == hostname %}
+{% if es_master_nodes[0].name == hostname %}
 node.roles: [ master ]
 {% endif %}
 {% endif %}
