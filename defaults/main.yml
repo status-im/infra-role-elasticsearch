@@ -16,7 +16,7 @@ es_docker_network_name: '{{ es_service_name }}'
 # Node
 es_node_cont_name: '{{ es_service_name }}-node'
 es_node_cont_vol: '{{ es_service_path }}/node'
-es_node_cont_tag: '7.17.7'
+es_node_cont_tag: '7.17.8'
 es_node_cont_image: 'elasticsearch:{{ es_node_cont_tag }}'
 es_node_cont_uid: 1000
 es_node_host_uid: '{{ 100000 + es_node_cont_uid | int }}'
