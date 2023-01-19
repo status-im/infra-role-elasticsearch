@@ -43,8 +43,9 @@ es_default_template_mappings: {}
 
 # JVM
 es_max_map_count: 262144
-es_jvm_min_heap: 1g
-es_jvm_max_heap: 1g
+es_jvm_heap_auto: true
+#es_jvm_min_heap: ~
+#es_jvm_max_heap: ~
 
 # general container management
 compose_state: 'present'

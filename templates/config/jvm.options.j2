@@ -18,9 +18,13 @@
 
 # Xms represents the initial size of total heap space
 # Xmx represents the maximum size of total heap space
-
--Xms{{ es_jvm_min_heap }}
--Xmx{{ es_jvm_max_heap }}
+{% if not es_jvm_heap_auto %}
+-Xms{{ es_jvm_min_heap | mandatory }}
+-Xmx{{ es_jvm_max_heap | mandatory }}
+{% else %}
+#-Xms2g
+#-Xmx2g
+{% endif %}
 
 ################################################################
 ## Expert settings
