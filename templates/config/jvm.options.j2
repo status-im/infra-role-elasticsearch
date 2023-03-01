@@ -38,16 +38,27 @@
 ################################################################
 
 ## GC configuration
+{% if not es_jvm_g1gc_enabled %}
 8-13:-XX:+UseConcMarkSweepGC
 8-13:-XX:CMSInitiatingOccupancyFraction=75
 8-13:-XX:+UseCMSInitiatingOccupancyOnly
+{% else %}
+# 8-13:-XX:+UseConcMarkSweepGC
+# 8-13:-XX:CMSInitiatingOccupancyFraction=75
+# 8-13:-XX:+UseCMSInitiatingOccupancyOnly
+{% endif %}
 
 ## G1GC Configuration
 # NOTE: G1 GC is only supported on JDK version 10 or later
 # to use G1GC, uncomment the next two lines and update the version on the
 # following three lines to your version of the JDK
+{% if es_jvm_g1gc_enabled %}
+10-13:-XX:-UseConcMarkSweepGC
+10-13:-XX:-UseCMSInitiatingOccupancyOnly
+{% else %}
 # 10-13:-XX:-UseConcMarkSweepGC
 # 10-13:-XX:-UseCMSInitiatingOccupancyOnly
+{% endif %}
 14-:-XX:+UseG1GC
 
 ## JVM temporary directory
