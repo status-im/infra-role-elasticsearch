@@ -41,6 +41,9 @@ es_number_of_shards: '{{ (es_master_nodes | length) }}'
 # Mappings for fields enforced by default template
 es_default_template_mappings: {}
 
+# Tuning
+es_node_concurrent_recoveries: 2
+
 # JVM
 es_max_map_count: 262144
 es_jvm_g1gc_enabled: false

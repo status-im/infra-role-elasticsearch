@@ -16,6 +16,9 @@ discovery.seed_hosts:
 {% for node in es_master_nodes %}
   - {{ node.addr | mandatory }}:{{ node.port | mandatory }} # {{ node.name | mandatory }}
 {% endfor %}
+
+# Tuning
+cluster.routing.allocation.node_concurrent_recoveries: {{ es_node_concurrent_recoveries }}
 {% if es_cluster_bootstrap %}
 
 # Bootstrapping config
