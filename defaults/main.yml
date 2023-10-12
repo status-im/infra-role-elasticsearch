@@ -37,6 +37,7 @@ es_listen_addr: '0.0.0.0'
 # Indices
 es_number_of_replicas: 2
 es_number_of_shards: '{{ (es_master_nodes | length) }}'
+es_mapping_total_fields_limit: 1000
 
 # Mappings for fields enforced by default template
 es_default_template_mappings: {}
