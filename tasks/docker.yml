@@ -20,10 +20,8 @@
     mode: 0644
 
 - name: 'Create containers'
-  docker_compose:
+  community.docker.docker_compose_v2:
     project_src: '{{ es_service_path }}'
-    state: '{{ compose_state }}'
-    restarted: '{{ compose_restart }}'
-    recreate: '{{ es_config.changed | ternary("always", compose_recreate) }}'
-    pull: true
-    build: false
+    recreate:    '{{ compose_recreate }}'
+    pull:        '{{ compose_pull }}'
+    state:       '{{ es_config.changed | ternary("restarted", compose_state) }}'

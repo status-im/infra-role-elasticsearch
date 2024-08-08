@@ -53,6 +53,6 @@ es_jvm_heap_auto: true
 #es_jvm_max_heap: ~
 
 # general container management
+compose_recreate: 'auto'
 compose_state: 'present'
-compose_recreate: 'smart'
-compose_restart: false
+compose_pull: 'always'
