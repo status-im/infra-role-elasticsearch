@@ -1,5 +1,5 @@
 # Node config
-node.name: "{{ hostname }}"
+node.name: "{{ inventory_hostname }}"
 network.host: "{{ es_listen_addr }}"
 network.bind_host: "{{ es_listen_addr }}"
 network.publish_host: "{{ ansible_local.wireguard.vpn_ip }}"
@@ -24,7 +24,7 @@ cluster.routing.allocation.node_concurrent_recoveries: {{ es_node_concurrent_rec
 # Bootstrapping config
 # WARNING: Should not be used after bootstrapping.
 cluster.initial_master_nodes: {{ es_master_nodes | json_query("[].name") | to_yaml }}
-{% if es_master_nodes[0].name == hostname %}
+{% if es_master_nodes[0].name == inventory_hostname %}
 node.roles: [ master ]
 {% endif %}
 {% endif %}
