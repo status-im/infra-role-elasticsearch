@@ -6,6 +6,7 @@ network.publish_host: "{{ ansible_local.wireguard.vpn_ip }}"
 transport.profiles.default.port: {{ es_node_port | mandatory }}
 xpack.security.enabled: false
 path.repo: "/var/backup"
+http.max_initial_line_length: 16kB
 
 # Cluster config
 cluster.name: "{{ es_cluster_name | mandatory }}"
