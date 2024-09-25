@@ -7,6 +7,7 @@
     timeout: 40
 
 - name: 'Set number of replicas to {{ es_number_of_replicas }} for all new indices'
+  register: wtg
   uri:
     url: 'http://localhost:{{ es_api_port }}/_template/default_template'
     method: PUT
@@ -17,7 +18,12 @@
         "index_patterns": ["*"],
         "mappings": {{ es_default_template_mappings | to_json }},
         "settings": {
-          "index": { "mapping": { "total_fields": { "limit": {{ es_mapping_total_fields_limit | to_json }} } } },
+          "index": {
+            "query": { "default_field": {{ es_default_query_default_field | to_json }} },
+            "mapping": {
+              "total_fields": { "limit": {{ es_mapping_total_fields_limit | to_json }} }
+            }
+          },
           "number_of_replicas": {{ es_number_of_replicas | to_json }},
           "number_of_shards": {{ es_number_of_shards | to_json }}
         }

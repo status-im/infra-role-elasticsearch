@@ -41,6 +41,8 @@ es_mapping_total_fields_limit: 1000
 
 # Mappings for fields enforced by default template
 es_default_template_mappings: {}
+# Query optimization to not search throguh all fields. Can be a list.
+es_default_query_default_field: '*'
 
 # Tuning
 es_node_concurrent_recoveries: 2
