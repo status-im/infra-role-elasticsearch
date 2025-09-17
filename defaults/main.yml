@@ -55,6 +55,27 @@ es_jvm_heap_auto: true
 #es_jvm_min_heap: ~
 #es_jvm_max_heap: ~
 
+# Pruning
+es_pruning_path: '{{ es_service_path }}/prune'
+es_pruning_venv_path: '{{ es_pruning_path }}/.venv'
+es_pruning_logs_path: '{{ es_pruning_path }}/logs'
+es_pruning_esclean_path: '{{ es_pruning_path }}/esclean.py'
+es_pruning_script_path: '{{ es_service_path }}/prune.sh'
+es_pruning_deps: ['elasticsearch', 'retry']
+es_pruning_enabled: false
+es_pruning_frequency: 'weekly'
+es_pruning_queries: []
+#- tag: '_grokparsefailure'         # match
+#  index-pattern: 'logstash-2024.*' # wildcard
+#  program: 'docker/some*container' # wildcard or term
+#  fleet: 'env.stage'               # match
+#  severity: 'debug'                # term
+#  logsource: 'example.com'         # match
+#  logsource_ip: '192.0.2.1'        # term
+#  message: 'hello world'           # match_phrase
+#  query: 'title:search'            # query_string
+#  older_than: 30                   # days
+
 # general container management
 compose_recreate: 'auto'
 compose_state: 'present'
