@@ -6,17 +6,17 @@ logfile="{{ es_pruning_logs_path }}/prune.log"
 
 exec > >(tee -a "$logfile") 2>&1
 
-date --iso-8601=seconds --utc
-
 set -x
+
 {% for query in es_pruning_queries %}
 {{ es_pruning_esclean_path }} \
-{% if 'fleet' in query %}
-  --fleet '{{ query.fleet }}' \
+{% for filter in query.keys() %}
+{% if filter in query %}
+  --{{ filter | replace('_', '-') }} '{{ query[filter] }}'{% if not loop.last %} \
 {% endif %}
-{% if 'older_than' in query %}
-  --older-than '{{ query.older_than }}' \
 {% endif %}
+{% endfor %}
+
 
 {% endfor %}
 

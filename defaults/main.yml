@@ -63,7 +63,19 @@ es_pruning_esclean_path: '{{ es_pruning_path }}/esclean.py'
 es_pruning_script_path: '{{ es_service_path }}/prune.sh'
 es_pruning_deps: ['elasticsearch', 'retry']
 es_pruning_enabled: false
+es_pruning_timeout: 300
 es_pruning_frequency: 'weekly'
+es_pruning_filters_available:
+  - 'tag'
+  - 'index_pattern'
+  - 'program'
+  - 'fleet'
+  - 'severity'
+  - 'logsource'
+  - 'logsource_ip'
+  - 'message'
+  - 'query'
+  - 'older_than'
 es_pruning_queries: []
 #- tag: '_grokparsefailure'         # match
 #  index-pattern: 'logstash-2024.*' # wildcard

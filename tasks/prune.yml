@@ -1,5 +1,12 @@
 ---
 
+- name: Verify query filters
+  assert:
+    that: '{{ item.keys() | difference(es_pruning_filters_available) | length == 0 }}'
+    fail_msg: 'es_pruning_queries contains filters which arent available'
+    quiet: true
+  loop: '{{ es_pruning_queries }}'
+
 - name: Create directories
   file:
     path: '{{ es_pruning_logs_path }}'
@@ -34,7 +41,6 @@
 - name: Install python dependencies in venv
   pip:
     virtualenv: '{{ es_pruning_venv_path }}'
-    #virtualenv_command: 'python3 -m venv'
     name: '{{ es_pruning_deps }}'
 
 - name: Create a timer for elasticsearch prunning
@@ -47,5 +53,7 @@
     systemd_timer_user:              'root'
     systemd_timer_start_on_creation:  false
     systemd_timer_enabled:           '{{ es_pruning_enabled }}'
+    systemd_timer_timeout_sec:       '{{ es_pruning_timeout }}'
+    systemd_timer_restart:           'on-failure'
     systemd_timer_frequency:         '{{ es_pruning_frequency }}'
     systemd_timer_script_path:       '{{ es_pruning_script_path }}'

@@ -13,7 +13,7 @@ from elasticsearch.exceptions import ElasticsearchWarning
 warnings.simplefilter('ignore', ElasticsearchWarning)
 
 # Setup logging.
-log_format = '[%(levelname)s] %(message)s'
+log_format = '%(asctime)s %(levelname)s %(message)s'
 logging.basicConfig(level=logging.INFO, format=log_format)
 logging.getLogger('elastic_transport.transport').setLevel(logging.WARNING)
 LOG = logging.getLogger(__name__)
