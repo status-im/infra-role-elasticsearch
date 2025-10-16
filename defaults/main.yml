@@ -48,6 +48,7 @@ es_default_query_default_field: '*'
 es_node_concurrent_recoveries: 2
 
 # JVM
+ex_memory_lock: false
 es_max_map_count: 262144
 es_jvm_g1gc_enabled: false
 es_jvm_heap_auto: true
