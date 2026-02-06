@@ -3,3 +3,4 @@
 - import_tasks: docker.yml
 - import_tasks: consul.yml
 - import_tasks: shards_conf.yml
+- import_tasks: prune.yml

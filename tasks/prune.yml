@@ -1,0 +1,59 @@
+---
+
+- name: Verify query filters
+  assert:
+    that: '{{ item.keys() | difference(es_pruning_filters_available) | length == 0 }}'
+    fail_msg: 'es_pruning_queries contains filters which arent available'
+    quiet: true
+  loop: '{{ es_pruning_queries }}'
+
+- name: Create directories
+  file:
+    path: '{{ es_pruning_logs_path }}'
+    state: directory
+    owner: '{{ es_node_host_uid }}'
+    group: docker
+    mode: '0775'
+
+- name: Deploy pruning templates
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ es_node_host_uid }}"
+    group: docker
+    mode: '0755'
+  loop:
+    - { src: 'esclean.py.j2', dest: '{{ es_pruning_esclean_path }}' }
+    - { src: 'prune.sh.j2', dest: '{{ es_pruning_script_path }}' }
+
+- name: Set log file permissions
+  ansible.builtin.file:
+    path: '{{ es_pruning_logs_path }}/prune.log'
+    state: touch
+    owner: '{{ es_node_host_uid }}'
+    group: docker
+    mode: '0666'
+
+- name: Install python virtualenv tool
+  apt:
+    name: 'python3-virtualenv'
+
+- name: Install python dependencies in venv
+  pip:
+    virtualenv: '{{ es_pruning_venv_path }}'
+    name: '{{ es_pruning_deps }}'
+
+- name: Create a timer for elasticsearch prunning
+  include_role: name=infra-role-systemd-timer
+  vars:
+    systemd_timer_description:       'Pruning elasticsearch documents'
+    systemd_timer_documentation:     'https://github.com/status-im/infra-role-elasticsearch'
+    systemd_timer_consul_extra_tags: ['{{ env }}.{{ stage }}', '{{ es_cluster_name }}', 'elasticsearch', 'pruning']
+    systemd_timer_name:              '{{ es_service_name }}-pruning'
+    systemd_timer_user:              'root'
+    systemd_timer_start_on_creation:  false
+    systemd_timer_enabled:           '{{ es_pruning_enabled }}'
+    systemd_timer_timeout_sec:       '{{ es_pruning_timeout }}'
+    systemd_timer_restart:           'on-failure'
+    systemd_timer_frequency:         '{{ es_pruning_frequency }}'
+    systemd_timer_script_path:       '{{ es_pruning_script_path }}'

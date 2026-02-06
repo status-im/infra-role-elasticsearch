@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# vim: ft=bash
+
+# TODO: add logrotate
+logfile="{{ es_pruning_logs_path }}/prune.log"
+
+exec > >(tee -a "$logfile") 2>&1
+
+set -x
+
+{% for query in es_pruning_queries %}
+{{ es_pruning_esclean_path }} \
+{% for filter in query.keys() %}
+{% if filter in query %}
+  --{{ filter | replace('_', '-') }} '{{ query[filter] }}'{% if not loop.last %} \
+{% endif %}
+{% endif %}
+{% endfor %}
+
+
+{% endfor %}
+
+{ set +x; } 2>/dev/null
