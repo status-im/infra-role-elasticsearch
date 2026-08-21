@@ -2,17 +2,19 @@
 - name: Wait for ElasticSearch HTTP port to go up
   wait_for:
     port: '{{ es_api_port }}'
-    delay: 10
-    connect_timeout: 40
-    timeout: 40
+    delay: 3
+    connect_timeout: 10
+    timeout: 60
 
 - name: 'Set number of replicas to {{ es_number_of_replicas }} for all new indices'
   register: wtg
   uri:
     url: 'http://localhost:{{ es_api_port }}/_template/default_template'
-    method: PUT
+    method:   'PUT'
+    user:     '{{ es_admin_username }}'
+    password: '{{ es_admin_password | mandatory }}'
     status_code: 200
-    body_format: json
+    body_format: 'json'
     body: |
       {
         "index_patterns": ["*"],
@@ -32,9 +34,11 @@
 #- name: 'Increase limits of sent data'
 #  uri:
 #    url: 'http://localhost:{{ es_api_port }}/_cluster/settings'
-#    method: PUT
+#    method:   'PUT'
+#    user:     '{{ es_admin_username }}'
+#    password: '{{ es_admin_password | mandatory }}'
 #    status_code: 200
-#    body_format: json
+#    body_format: 'json'
 #    body: |
 #      {
 #        "persistent":{

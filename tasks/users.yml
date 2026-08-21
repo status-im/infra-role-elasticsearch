@@ -1,0 +1,57 @@
+---
+- name: Create ElasticSearch roles
+  run_once: true
+  uri:
+    url: 'http://localhost:{{ es_api_port }}/_security/role/{{ role.name }}'
+    method: 'PUT'
+    user:     '{{ es_admin_username }}'
+    password: '{{ es_admin_password | mandatory }}'
+    force_basic_auth: true
+    status_code: 200
+    body_format: 'json'
+    body:
+      cluster: '{{ role.cluster | default([]) }}'
+      indices: '{{ role.indices | default([]) }}'
+  with_items: '{{ es_roles }}'
+  loop_control:
+    loop_var: 'role'
+    label: '{{ role.name }}'
+
+- name: Update built-in user password
+  when: user.name in es_built_in_users
+  run_once: true
+  uri:
+    url: 'http://localhost:{{ es_api_port }}/_security/user/{{ user.name }}/_password'
+    method: 'PUT'
+    user:     '{{ es_admin_username }}'
+    password: '{{ es_admin_password | mandatory }}'
+    force_basic_auth: true
+    status_code: 200
+    body_format: 'json'
+    body:
+      password:  '{{ user.pass }}'
+  with_items: '{{ es_users }}'
+  loop_control:
+    loop_var: 'user'
+    label: '{{ user.name }}'
+
+- name: Create ElasticSearch users
+  when: user.name not in es_built_in_users
+  run_once: true
+  uri:
+    url: 'http://localhost:{{ es_api_port }}/_security/user/{{ user.name }}'
+    method: 'PUT'
+    user:     '{{ es_admin_username }}'
+    password: '{{ es_admin_password | mandatory }}'
+    force_basic_auth: true
+    status_code: 200
+    body_format: 'json'
+    body:
+      full_name: '{{ user.full_name | default("") }}'
+      password:  '{{ user.pass }}'
+      roles:     '{{ user.roles | default([]) }}'
+      enabled:   '{{ user.enabled | default(true) }}'
+  with_items: '{{ es_users }}'
+  loop_control:
+    loop_var: 'user'
+    label: '{{ user.name }}'

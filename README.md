@@ -28,6 +28,41 @@ es_jvm_max_heap: 2g
 
 As the hosts are scaled up to deal with more and more logs we should adjust those in turn.
 
+# Authentication
+
+When Security module is enabled peer transport SSL certificates are required:
+```yaml
+es_security_enabled: true
+es_transport_certs_path: '{{ es_node_host_config_path }}/certs'
+es_transport_pem_path: '{{ es_transport_certs_path }}/{{ hostname }}.wg.pem'
+es_transport_key_path: '{{ es_transport_certs_path }}/{{ hostname }}.wg.key'
+es_transport_ca_pem_path: '{{ es_transport_certs_path }}/{{ vault_pki_ca_key_name }}.pem'
+# Built-in admin user
+es_admin_username: 'elastic' # HARDCODED
+es_admin_password: '{{ lookup("vault", "elasticsearch/users", field="elastic") }}'
+```
+If additional roles and users are necessary, or changing passwords of built-in users, use:
+```yaml
+es_roles:
+  - name: 'logstash_writer'
+    cluster: ['monitor', 'manage_index_templates']
+    indices:
+      - names: ['logstash-*']
+        privileges: ['write', 'create', 'create_index']
+es_users:
+  - name: 'logstash'
+    pass: 'super_secret_password'
+    full_name: 'Logstash Writer User'
+    roles: ['logstash_writer']
+    enabled: true
+
+  # Built-in users
+  - name: 'apm_system'
+    pass: 'definitely_not_apm_system_pass'
+  - name: 'kibana_system'
+    pass: 'definitely_not_kibana_system_pass'
+```
+
 # Backups
 
 For information on how to create backups see the [`BACKUPS.md`](./BACKUPS.md) document.

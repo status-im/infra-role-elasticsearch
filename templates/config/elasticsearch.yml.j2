@@ -4,10 +4,19 @@ network.host: "{{ es_listen_addr }}"
 network.bind_host: "{{ es_listen_addr }}"
 network.publish_host: "{{ ansible_local.wireguard.vpn_ip }}"
 transport.profiles.default.port: {{ es_node_port | mandatory }}
-xpack.security.enabled: false
 path.repo: "/var/backup"
 http.max_initial_line_length: 16kB
 bootstrap.memory_lock: {{ ex_memory_lock | to_json }}
+
+# Security
+xpack.security.enabled: {{ es_security_enabled | to_json }}
+xpack.security.transport.ssl.enabled: {{ es_security_enabled | to_json }}
+xpack.security.transport.ssl.client_authentication: required
+xpack.security.transport.ssl.verification_mode: full
+xpack.security.transport.ssl.key: "{{ es_transport_key_path | replace(es_transport_certs_path, "/usr/share/elasticsearch/config/certs") }}"
+xpack.security.transport.ssl.certificate: "{{ es_transport_pem_path | replace(es_transport_certs_path, "/usr/share/elasticsearch/config/certs") }}"
+xpack.security.transport.ssl.certificate_authorities: ["{{ es_transport_ca_pem_path | replace(es_transport_certs_path, "/usr/share/elasticsearch/config/certs") }}"]
+xpack.security.http.ssl.enabled: false
 
 # Cluster config
 cluster.name: "{{ es_cluster_name | mandatory }}"

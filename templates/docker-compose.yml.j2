@@ -8,13 +8,17 @@ services:
     container_name: '{{ es_node_cont_name }}'
     image: '{{ es_node_cont_image }}'
     restart: always
+{% if es_security_enabled %}
+    environment:
+      ELASTIC_PASSWORD_FILE: '/usr/share/elasticsearch/config/password.txt'
+{% endif %}
     ports:
       - '0.0.0.0:{{ es_api_port }}:{{ es_api_port }}'
       - '0.0.0.0:{{ es_node_port }}:{{ es_node_port }}'
     volumes:
-      - '{{ es_node_cont_vol }}/conf:/usr/share/elasticsearch/config'
-      - '{{ es_node_cont_vol }}/data:/usr/share/elasticsearch/data'
-      - '{{ es_node_cont_vol }}/backup:/var/backup'
+      - '{{ es_node_host_data_path }}:/usr/share/elasticsearch/data'
+      - '{{ es_node_host_config_path }}:/usr/share/elasticsearch/config'
+      - '{{ es_node_host_backup_path }}:/var/backup'
 {% if es_exp_cont_enabled %}
 
   exp:

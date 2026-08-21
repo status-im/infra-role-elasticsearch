@@ -20,6 +20,9 @@ es_node_cont_tag: '7.17.28'
 es_node_cont_image: 'elasticsearch:{{ es_node_cont_tag }}'
 es_node_cont_uid: 1000
 es_node_host_uid: '{{ 100000 + es_node_cont_uid | int }}'
+es_node_host_data_path: '{{ es_node_cont_vol }}/data'
+es_node_host_config_path: '{{ es_node_cont_vol }}/conf'
+es_node_host_backup_path: '{{ es_node_cont_vol }}/backup'
 # Exporter
 es_exp_cont_enabled: true
 es_exp_cont_name: '{{ es_service_name }}-exp'
@@ -33,6 +36,30 @@ es_exp_timeout: '10s'
 es_api_port: 9200
 es_node_port: 9300
 es_listen_addr: '0.0.0.0'
+
+# Authentication, Roles & Users
+es_security_enabled: false
+es_transport_certs_path: '{{ es_node_host_config_path }}/certs'
+es_transport_pem_path: '{{ es_transport_certs_path }}/{{ hostname }}.pem'
+es_transport_key_path: '{{ es_transport_certs_path }}/{{ hostname }}.key'
+es_transport_ca_pem_path: '{{ es_transport_certs_path }}/ca.pem'
+es_built_in_users: ['elastic', 'kibana_system', 'logstash_system', 'beats_system', 'apm_system', 'remote_monitoring_user']
+es_admin_username: 'elastic' # HARDCODED
+#es_admin_password: 'changeMeIfYouCare'
+es_roles: []
+#  - name: 'example_writer'
+#    cluster: ['monitor', 'manage_index_templates']
+#    indices:
+#      - names: ['example-*']
+#        privileges: ['write', 'create', 'create_index']
+es_users: []
+#  - name: 'example_user'
+#    pass: 'example_pass'
+#    full_name: 'Example User'
+#    roles: ['example_writer']
+#    enabled: true
+#  - name: 'kibana_system'
+#    pass: 'built_in_kibana_system_user_pass'
 
 # Indices
 es_number_of_replicas: 2

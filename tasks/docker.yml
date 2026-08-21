@@ -1,15 +1,15 @@
 ---
 - name: 'Create container folders'
   file:
-    path: '{{ item.path }}'
-    owner: '{{ item.owner }}'
-    group: docker
-    mode: 0750
-    state: directory
-    recurse: true
+    path:  '{{ item.path }}'
+    owner: '{{ item.owner | default(es_node_host_uid) }}'
+    group: 'docker'
+    mode:  '0o750'
+    state: 'directory'
   with_items:
-    - { path: '{{ es_node_cont_vol }}/backup', owner: '{{ es_node_host_uid }}' }
-    - { path: '{{ es_node_cont_vol }}/data',   owner: '{{ es_node_host_uid }}' }
+    - { path: '{{ es_node_host_backup_path }}' }
+    - { path: '{{ es_node_host_data_path }}'   }
+    - { path: '{{ es_transport_certs_path }}'  }
 
 - name: 'Create compose file'
   template:
