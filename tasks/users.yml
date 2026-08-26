@@ -12,7 +12,7 @@
     body:
       cluster: '{{ role.cluster | default([]) }}'
       indices: '{{ role.indices | default([]) }}'
-  with_items: '{{ es_roles }}'
+  with_items: '{{ ex_default_roles + es_roles }}'
   loop_control:
     loop_var: 'role'
     label: '{{ role.name }}'

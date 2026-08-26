@@ -46,6 +46,10 @@ es_transport_ca_pem_path: '{{ es_transport_certs_path }}/ca.pem'
 es_built_in_users: ['elastic', 'kibana_system', 'logstash_system', 'beats_system', 'apm_system', 'remote_monitoring_user']
 es_admin_username: 'elastic' # HARDCODED
 #es_admin_password: 'changeMeIfYouCare'
+ex_default_roles:
+  # Necessary for anonymouse healthcheck access
+  - name: 'healthcheck'
+    cluster: ['monitor']
 es_roles: []
 #  - name: 'example_writer'
 #    cluster: ['monitor', 'manage_index_templates']

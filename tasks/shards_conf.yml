@@ -13,6 +13,7 @@
     method:   'PUT'
     user:     '{{ es_admin_username }}'
     password: '{{ es_admin_password | mandatory }}'
+    force_basic_auth: true
     status_code: 200
     body_format: 'json'
     body: |

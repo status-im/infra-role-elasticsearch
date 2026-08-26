@@ -17,6 +17,9 @@ xpack.security.transport.ssl.key: "{{ es_transport_key_path | replace(es_transpo
 xpack.security.transport.ssl.certificate: "{{ es_transport_pem_path | replace(es_transport_certs_path, "/usr/share/elasticsearch/config/certs") }}"
 xpack.security.transport.ssl.certificate_authorities: ["{{ es_transport_ca_pem_path | replace(es_transport_certs_path, "/usr/share/elasticsearch/config/certs") }}"]
 xpack.security.http.ssl.enabled: false
+xpack.security.authc.anonymous:
+  username: healthcheck
+  roles: healthcheck
 
 # Cluster config
 cluster.name: "{{ es_cluster_name | mandatory }}"
