@@ -1,6 +1,7 @@
 ---
 - name: Create Consul service definition
-  include_role: name=infra-role-consul-service
+  include_role:
+    name: infra-role-consul-service
   vars:
     consul_config_name: '{{ es_service_name }}'
     consul_services:
@@ -10,9 +11,9 @@
         port: '{{ es_api_port }}'
         address: '{{ ansible_local.wireguard.vpn_ip }}'
         meta:
-            fleet: '{{ env }}.{{ stage }}'
-            cluster_port: '{{ es_node_port | string }}'
-            cluster_name: '{{ es_cluster_name }}'
+          fleet: '{{ env }}.{{ stage }}'
+          cluster_port: '{{ es_node_port | string }}'
+          cluster_name: '{{ es_cluster_name }}'
         checks:
           - id: '{{ es_service_name }}-health'
             name: ElasticSearch Healthcheck
@@ -22,7 +23,8 @@
             timeout: '5s'
 
 - name: Create Consul service definition
-  include_role: name=infra-role-consul-service
+  include_role:
+    name: infra-role-consul-service
   vars:
     consul_config_name: '{{ es_exp_cont_name }}'
     consul_services:
@@ -32,8 +34,8 @@
         port: '{{ es_exp_cont_port }}'
         address: '{{ ansible_local.wireguard.vpn_ip }}'
         meta:
-            fleet: '{{ env }}.{{ stage }}'
-            cluster_name: '{{ es_cluster_name }}'
+          fleet: '{{ env }}.{{ stage }}'
+          cluster_name: '{{ es_cluster_name }}'
         checks:
           - id: '{{ es_exp_cont_name }}-health'
             name: ES metrics exporter healthcheck

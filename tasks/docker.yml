@@ -8,16 +8,16 @@
     state: 'directory'
   with_items:
     - { path: '{{ es_node_host_backup_path }}' }
-    - { path: '{{ es_node_host_data_path }}'   }
-    - { path: '{{ es_transport_certs_path }}'  }
+    - { path: '{{ es_node_host_data_path }}' }
+    - { path: '{{ es_transport_certs_path }}' }
 
 - name: 'Create compose file'
   template:
-    src: 'docker-compose.yml.j2'
-    dest: '{{ es_compose_path }}'
-    owner: dockremap
-    group: docker
-    mode: 0644
+    src:   'docker-compose.yml.j2'
+    dest:  '{{ es_compose_path }}'
+    owner: 'dockremap'
+    group: 'docker'
+    mode:  '0o644'
 
 - name: 'Create containers'
   community.docker.docker_compose_v2:

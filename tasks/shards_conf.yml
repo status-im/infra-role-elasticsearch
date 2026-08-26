@@ -6,7 +6,7 @@
     connect_timeout: 10
     timeout: 60
 
-- name: 'Set number of replicas to {{ es_number_of_replicas }} for all new indices'
+- name: 'Set number of replicas for all new indices'
   register: wtg
   uri:
     url: 'http://localhost:{{ es_api_port }}/_template/default_template'
