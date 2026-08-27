@@ -1,7 +1,16 @@
 ---
 - import_tasks: config.yml
+  tags: ['elasticsearch', 'elasticsearch:config']
+
 - import_tasks: docker.yml
+  tags: ['elasticsearch', 'elasticsearch:docker']
+
 - import_tasks: consul.yml
+  tags: ['elasticsearch', 'elasticsearch:consul']
+
 - import_tasks: shards_conf.yml
+  tags: ['elasticsearch', 'elasticsearch:shards']
+
 - import_tasks: users.yml
+  tags: ['elasticsearch', 'elasticsearch:users']
   when: es_security_enabled
