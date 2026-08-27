@@ -11,7 +11,4 @@ galaxy_info:
         - trusty
         - xenial
 
-dependencies:
-  - name: infra-role-consul-service
-    src: git+git@github.com:status-im/infra-role-consul-service.git
-    scm: git
+dependencies: []
