@@ -30,6 +30,8 @@ es_exp_cont_tag: 'v1.11.0'
 es_exp_cont_image: 'quay.io/prometheuscommunity/elasticsearch-exporter:{{ es_exp_cont_tag }}'
 es_exp_cont_port: 9114
 es_exp_timeout: '10s'
+ex_exp_user: 'remote_monitoring_user'
+ex_exp_pass: '{{ es_users | selectattr("name", "equalto", ex_exp_user) | map(attribute="pass") | first }}'
 # ----------------------------------------------------------
 
 # Listen ports and addresses

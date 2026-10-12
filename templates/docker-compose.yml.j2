@@ -25,6 +25,9 @@ services:
     container_name: '{{ es_exp_cont_name }}'
     image: '{{ es_exp_cont_image }}'
     restart: always
+    environment:
+      ES_USERNAME: '{{ ex_exp_user | mandatory }}'
+      ES_PASSWORD: '{{ ex_exp_pass | mandatory }}'
     ports:
       - '0.0.0.0:{{ es_exp_cont_port }}:{{ es_exp_cont_port }}'
     command: >
