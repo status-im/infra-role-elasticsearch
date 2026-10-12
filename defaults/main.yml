@@ -26,7 +26,7 @@ es_node_host_backup_path: '{{ es_node_cont_vol }}/backup'
 # Exporter
 es_exp_cont_enabled: true
 es_exp_cont_name: '{{ es_service_name }}-exp'
-es_exp_cont_tag: 'v1.9.0'
+es_exp_cont_tag: 'v1.11.0'
 es_exp_cont_image: 'quay.io/prometheuscommunity/elasticsearch-exporter:{{ es_exp_cont_tag }}'
 es_exp_cont_port: 9114
 es_exp_timeout: '10s'
