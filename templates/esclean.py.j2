@@ -25,15 +25,15 @@ def parse_opts():
     parser = OptionParser(description=HELP_DESCRIPTION, epilog=HELP_EXAMPLE)
     parser.add_option('-H', '--host', dest='es_host', default='localhost',
                       help='ElasticSearch host.')
-    parser.add_option('-P', '--port', dest='es_port', default=9200,
+    parser.add_option('-P', '--port', dest='es_port', type="int", default=9200,
                       help='ElasticSearch port.')
-    parser.add_option('-T', '--timeout', dest='es_timeout', default=3000,
+    parser.add_option('-T', '--timeout', dest='es_timeout', type="int", default=3000,
                       help='ElasticSearch timeout.')
-    parser.add_option('-R', '--retries', dest='es_retries', default=5,
+    parser.add_option('-R', '--retries', dest='es_retries', type="int", default=5,
                       help='ElasticSearch retries.')
-    parser.add_option('-D', '--delay', dest='es_delay', default=120,
+    parser.add_option('-D', '--delay', dest='es_delay', type="int", default=120,
                       help='ElasticSearch retry delay.')
-    parser.add_option('-B', '--backoff', dest='es_backoff', default=2,
+    parser.add_option('-B', '--backoff', dest='es_backoff', type="int", default=2,
                       help='ElasticSearch retry backoff.')
     parser.add_option('-i', '--index-pattern', default='logstash-*',
                       help='Patter for matching indices.')
@@ -73,7 +73,15 @@ def print_logs(docs):
 def delete_retry(es, index, body, tries=5, delay=120, backoff=2):
     return retry_call(
         es.delete_by_query,
-        fkwargs={'index': index, 'body': body},
+        fkwargs={
+            'index': index,
+            'body': body,
+            # 'requests_per_second': 1000,
+            'slices': 1, # default: 1
+            'scroll_size': 10000, # default: 100
+            'refresh': False,
+            # 'conflicts': 'proceed',
+        },
         tries=tries,
         delay=delay,
         backoff=backoff
@@ -86,8 +94,12 @@ def main():
 
     es = Elasticsearch(
         hosts=[{ 'host': opts.es_host, 'port': opts.es_port, 'scheme': 'http'}],
+        # max_retries=0,
+        # connections_per_node=50,
         request_timeout=opts.es_timeout,
-        retry_on_timeout=True
+        # retry doesnt work, new try will fail due to previous try afterjobs (merge etc) cleaning up
+        # retry_on_timeout=True
+        retry_on_timeout=False
     )
 
     LOG.info('Cluster: {}'.format(es.info().get('cluster_name')))
@@ -121,7 +133,11 @@ def main():
 
     body = None
     if len(queries) > 0:
-        body = {'query': {'bool': {'must': queries}}}
+        body = {
+            'query': {'bool': {'must': queries}},
+            # 'slices': 'auto',
+            # 'conflicts': 'proceed',
+        }
 
     for index in indices:
         resp = es.count(index=index, **body)

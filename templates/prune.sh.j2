@@ -10,6 +10,9 @@ set -x
 
 {% for query in es_pruning_queries %}
 {{ es_pruning_esclean_path }} \
+  --timeout 10800 \
+  --retries 1 \
+  --delete \
 {% for filter in query.keys() %}
 {% if filter in query %}
   --{{ filter | replace('_', '-') }} '{{ query[filter] }}'{% if not loop.last %} \
@@ -19,5 +22,4 @@ set -x
 
 
 {% endfor %}
-
 { set +x; } 2>/dev/null

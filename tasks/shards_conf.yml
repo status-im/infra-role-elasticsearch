@@ -6,28 +6,28 @@
     connect_timeout: 40
     timeout: 40
 
-- name: 'Set number of replicas to {{ es_number_of_replicas }} for all new indices'
-  register: wtg
-  uri:
-    url: 'http://localhost:{{ es_api_port }}/_template/default_template'
-    method: PUT
-    status_code: 200
-    body_format: json
-    body: |
-      {
-        "index_patterns": ["*"],
-        "mappings": {{ es_default_template_mappings | to_json }},
-        "settings": {
-          "index": {
-            "query": { "default_field": {{ es_default_query_default_field | to_json }} },
-            "mapping": {
-              "total_fields": { "limit": {{ es_mapping_total_fields_limit | to_json }} }
-            }
-          },
-          "number_of_replicas": {{ es_number_of_replicas | to_json }},
-          "number_of_shards": {{ es_number_of_shards | to_json }}
-        }
-      }
+# - name: 'Set number of replicas to {{ es_number_of_replicas }} for all new indices'
+#   register: wtg
+#   uri:
+#     url: 'http://localhost:{{ es_api_port }}/_template/default_template'
+#     method: PUT
+#     status_code: 200
+#     body_format: json
+#     body: |
+#       {
+#         "index_patterns": ["*"],
+#         "mappings": {{ es_default_template_mappings | to_json }},
+#         "settings": {
+#           "index": {
+#             "query": { "default_field": {{ es_default_query_default_field | to_json }} },
+#             "mapping": {
+#               "total_fields": { "limit": {{ es_mapping_total_fields_limit | to_json }} }
+#             }
+#           },
+#           "number_of_replicas": {{ es_number_of_replicas | to_json }},
+#           "number_of_shards": {{ es_number_of_shards | to_json }}
+#         }
+#       }
 
 #- name: 'Increase limits of sent data'
 #  uri:
